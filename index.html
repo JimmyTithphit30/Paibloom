@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,17 +8,38 @@
 
   <!-- Critical above-the-fold CSS -->
   <style>
-    :root { --primary-blue:#1e40af; --light-blue:#3b82f6; }
-    .gradient-bg { background: linear-gradient(135deg,var(--primary-blue) 0%,var(--light-blue) 100%); }
-    .fade-in-up { opacity:0; transform:translateY(30px); transition:opacity .6s ease-out, transform .6s ease-out; }
-    .fade-in-up.visible { opacity:1; transform:translateY(0); }
+    :root {
+      --primary-blue: #1e40af;
+      --light-blue: #3b82f6;
+    }
+
+    .gradient-bg {
+      background: linear-gradient(135deg, var(--primary-blue) 0%, var(--light-blue) 100%);
+    }
+
+    .fade-in-up {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity .6s ease-out, transform .6s ease-out;
+    }
+
+    .fade-in-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
     @font-face {
       font-family: 'Inter';
       src: url('fonts/Inter-Regular.woff2') format('woff2');
-      font-weight: 400; font-style: normal; font-display: swap;
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
     }
+
     /* Disable heavy animations for performance */
-    .floating-animation, .pulse-animation, .ripple-effect {
+    .floating-animation,
+    .pulse-animation,
+    .ripple-effect {
       animation: none !important;
     }
   </style>
@@ -27,374 +49,388 @@
 
   <!-- Simplified utility styles -->
   <style>
-    .nav-blur { backdrop-filter: blur(10px); background: rgba(255,255,255,0.9); }
-    .card-hover { transition: transform .2s ease; }
-    .card-hover:hover { transform: translateY(-4px); }
-    .text-gradient { background: linear-gradient(135deg,#2C4918,#FAF9F5); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .nav-blur {
+      backdrop-filter: blur(10px);
+      background: rgba(255, 255, 255, 0.9);
+    }
+
+    .card-hover {
+      transition: transform .2s ease;
+    }
+
+    .card-hover:hover {
+      transform: translateY(-4px);
+    }
+
+    .text-gradient {
+      background: linear-gradient(135deg, #2C4918, #FAF9F5);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
   </style>
 </head>
+
 <body class="bg-white text-gray-900">
   <!-- Navigation -->
-  <nav class="fixed top-0 w-full z-50 nav-blur border-b border-gray-100">
+  <nav class="fixed top-0 w-full z-50 bg-white border-b border-gray-100 shadow">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between items-center h-16">
-        <div class="flex items-center">
-          <div class="text-2xl font-bold text-gradient">Paibloom</div>
+      <div class="flex items-center h-16 justify-between">
+
+        <!-- Left: Logo -->
+        <div class="flex-shrink-0">
+          <a href="#home">
+            <img src="img/paibloom logo.png" alt="Paibloom Logo" class="h-10 w-auto">
+          </a>
         </div>
-        
+
+        <!-- Center: Navigation links -->
+        <div class="flex space-x-8">
+          <a href="#home" class="text-gray-800 hover:text-blue-600 transition-colors font-medium">Home</a>
+          <a href="#about" class="text-gray-800 hover:text-blue-600 transition-colors font-medium">About</a>
+          <a href="#team" class="text-gray-800 hover:text-blue-600 transition-colors font-medium">Team</a>
+          <a href="#contact" class="text-gray-800 hover:text-blue-600 transition-colors font-medium">Contact</a>
+        </div>
+
+        <!-- Right: CTA button -->
         <div class="hidden md:block">
-          <div class="ml-10 flex items-baseline space-x-8">
-            <a href="#home" class="hover:text-blue-600 transition-colors">Home</a>
-            <a href="#about" class="hover:text-blue-600 transition-colors">About</a>
-            <a href="#programs" class="hover:text-blue-600 transition-colors">Programs</a>
-            <a href="#membership" class="hover:text-blue-600 transition-colors">Membership</a>
-            <a href="pages/contact.html" class="hover:text-blue-600 transition-colors">Contact</a>
+          <a href="" class="text-white px-4 py-2 rounded-full transition-colors"
+            style="background-color: #2C4918;" onmouseover="this.style.backgroundColor='#1e320f'"
+            onmouseout="this.style.backgroundColor='#2C4918'">
+            Learn More
+          </a>
+        </div>
+
+        <!-- Mobile Menu Button -->
+        <div class="md:hidden">
+          <button onclick="toggleMenu()" class="text-2xl text-gray-800">☰</button>
+        </div>
+      </div>
+
+      <!-- Mobile Dropdown -->
+      <div id="mobile-menu" class="hidden md:hidden mt-2 bg-white border-t border-gray-200">
+        <a href="#home" class="block px-6 py-3 hover:bg-gray-100">Home</a>
+        <a href="#about" class="block px-6 py-3 hover:bg-gray-100">About</a>
+        <a href="#team" class="block px-6 py-3 hover:bg-gray-100">Team</a>
+        <a href="#contact" class="block px-6 py-3 hover:bg-gray-100">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <script>
+    function toggleMenu() {
+      const menu = document.getElementById('mobile-menu');
+      menu.classList.toggle('hidden');
+    }
+  </script>
+<!-- Hero Section with real image + overlay -->
+<section id="home" style="
+  height: 600px;
+  width: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end; /* Default: content right */
+">
+  <style>
+    #home::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: url('img/longan-fruit-in-the-farmer-s-farm-which-has-a-lot-of-fruit-on-the-longan-tree-in-chiang-mai-thailand-free-photo.jpg');
+      background-size: cover;
+      background-position: center;
+      opacity: 1;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    #home > div {
+      position: relative;
+      z-index: 1;
+      max-width: 600px;
+      padding-right: 150px;
+      display: flex;
+      flex-direction: column;
+      align-items: center; /* Center text and buttons together */
+      text-align: center;  /* Ensure text is centered */
+      transform: translateX(-200px); /* Shift whole block left on desktop */
+    }
+
+    /* Main heading style */
+    #home > div h1 {
+      white-space: nowrap; /* Keep heading in one line */
+      text-shadow: 2px 2px 4px rgba(2, 73, 2, 0.6); /* subtle outline effect */
+    }
+
+    /* Subtext style */
+    #home > div p {
+      font-size: 1.5rem; /* slightly bigger than default */
+    }
+
+    /* Mobile: center everything on screen */
+    @media (max-width: 768px) {
+      #home {
+        justify-content: center; /* Center text block horizontally */
+      }
+      #home > div {
+        padding-left: 20px;
+        padding-right: 20px;
+        transform: translateX(0); /* Remove left shift on mobile */
+      }
+      #home > div h1 {
+        white-space: normal; /* Allow wrapping on smaller screens */
+      }
+      /* Stack buttons vertically with spacing */
+      #home .button-group {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        align-items: center; /* Center buttons horizontally */
+      }
+    }
+  </style>
+
+  <!-- Text Block -->
+  <div>
+    <h1 class="text-3xl md:text-5xl font-bold mb-3" style="color: #503103;">
+      Proudly Cambodian: <span style="color: #2C4918;">Sweetness with Purpose</span>
+    </h1>
+    <p class="text-base md:text-lg text-white mb-4">
+      Valorisation of Longan for Inclusive Growth in Cambodia
+    </p>
+    <div class="space-x-3 button-group">
+      <button
+        class="border-2 border-white text-white px-5 py-2 text-sm font-semibold rounded-full hover:bg-white hover:text-blue-600 transition-colors">
+        Learn More
+      </button>
+    </div>
+  </div>
+</section>
+1
+
+
+
+
+
+
+
+ <!-- About Section -->
+<section id="about" class="py-20 bg-gray-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16 fade-in-up">
+      <h2 class="text-4xl font-bold text-gradient mb-6">Our Story</h2>
+      <p class="text-xl text-gray-600 max-w-3xl mx-auto"></p>
+    </div>
+    <div class="grid md:grid-cols-2 gap-12 items-center">
+      <div class="fade-in-up">
+        <h3 class="text-2xl font-bold text-gray-900 mb-6">The Challenge We Address</h3>
+        <p class="text-gray-600 mb-6">Cambodia is an agricultural country, yet smallholder farmers face post-harvest losses, low prices, and limited market access. In Pailin, despite producing world-class <strong>longan</strong>, up to 50% is wasted each harvest.</p>
+        <p class="text-gray-600">Pailin, known for its fertile soils and unique longan orchards, illustrates this paradox. Despite producing premium fruit, up to 50% of longan is wasted in peak harvests. Farmers receive as little as €0.40/kg, while urban youth consume imported sugary drinks instead of local fruit-based alternatives.</p>
+      </div>
+      <div class="fade-in-up">
+        <div class="bg-white p-8 rounded-2xl shadow-lg">
+          <h4 class="text-xl font-bold text-gray-900 mb-4">Paibloom's Vision</h4>
+          <p class="text-blue-600 font-semibold mb-4"></p>
+          <div class="space-y-3">
+            <div class="flex items-center">
+              <div class="w-2 h-2 rounded-full mr-3" style="background-color:#2C4918;"></div><span class="text-gray-600">Train farmers on regenerative agroforestry techniques.</span>
+            </div>
+            <div class="flex items-center">
+              <div class="w-2 h-2 rounded-full mr-3" style="background-color:#2C4918;"></div><span class="text-gray-600">Establish pilot processing hubs for longan products.</span>
+            </div>
+            <div class="flex items-center">
+              <div class="w-2 h-2 rounded-full mr-3" style="background-color:#2C4918;"></div><span class="text-gray-600">Implement a local traceability system.</span>
+            </div>
+            <div class="flex items-center">
+              <div class="w-2 h-2 rounded-full mr-3" style="background-color:#2C4918;"></div><span class="text-gray-600">Reduce post-harvest waste and increase farmer incomes.</span>
+            </div>
+            <div class="flex items-center">
+              <div class="w-2 h-2 rounded-full mr-3" style="background-color:#2C4918;"></div><span class="text-gray-600">Introduce healthier snack and beverage options using longan's natural sweetness.</span>
+            </div>
+            <div class="flex items-center">
+              <div class="w-2 h-2 rounded-full mr-3" style="background-color:#2C4918;"></div><span class="text-gray-600">Engage youth and women in developing food products rooted in traditional crops.</span>
+            </div>
           </div>
         </div>
-        <!-- Burger Menu for Mobile -->
-    <button class="text-2xl md:hidden" onclick="toggleMenu()">☰</button>
-        <!-- Mobile dropdown menu -->
-    <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-200">
-      <a href="#home" class="block px-6 py-3 hover:bg-gray-100">Home</a>
-      <a href="#about" class="block px-6 py-3 hover:bg-gray-100">About</a>
-      <a href="#programs" class="block px-6 py-3 hover:bg-gray-100">Programs</a>
-      <a href="#membership" class="block px-6 py-3 hover:bg-gray-100">Membership</a>
-      <a href="#contact" class="block px-6 py-3 hover:bg-gray-100">Contact</a>
-    </div>
-  </nav>
       </div>
     </div>
-  </nav>
+  </div>
+</section>
 
 
-   <!-- Hero Section with real image + overlay -->
-  <section
-    id="home"
-    class="relative py-24 md:py-32 overflow-hidden"
-    style="
-      background-image:
-        linear-gradient(#FAF9F5,#2C4918),
-        url('images/photo_2025-07-30_03-14-04.jpg');
-      background-size: contain;
-      background-position: top center;
-      min-height: 60vh;
-    "
-  >
-    <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 fade-in-up text-center">
-      <h1 class="text-3xl md:text-5xl font-bold text-white mb-3">
-        Building <span class="text-blue-200">Belonging</span>
-      </h1>
-      <p class="text-base md:text-lg text-white mb-4">
-        Giving what the farmers deserve.
-      </p>
-      <p class="text-sm md:text-base text-white mb-6">
-        A platform rooted in intimacy, empowerment, and cultural pride
-      </p>
-      <div class="space-x-3">
-        <button class="bg-white text-blue-600 px-5 py-2 text-sm font-semibold rounded-full hover:bg-blue-50 transition-colors">
-          Join Our Team.
-        </button>
-        <button class="border-2 border-white text-white px-5 py-2 text-sm font-semibold rounded-full hover:bg-white hover:text-blue-600 transition-colors">
-          Learn More
-        </button>
-      </div>
+   <!-- Products -->
+<section id="products" class="py-20 bg-white">
+<div class="text-center mb-12">
+<h2 class="text-3xl font-bold text-gradient mb-4">Proudly Cambodian Products</h2>
+<p class="text-lg text-gray-600">Health, culture, and sustainability — in every sip and bite.</p>
+</div>
+<div class="max-w-7xl mx-auto px-6 lg:px-8 grid md:grid-cols-3 gap-8">
+<div class="bg-gray-50 p-6 rounded-2xl shadow card-hover">
+<h3 class="text-xl font-bold mb-2">Longan Herbal Syrup</h3>
+<p class="text-gray-600">A natural sweetener and mixable base for healthy drinks, replacing sugar-heavy imports.</p>
+</div>
+<div class="bg-gray-50 p-6 rounded-2xl shadow card-hover">
+<h3 class="text-xl font-bold mb-2">Dried Longan Bites</h3>
+<p class="text-gray-600">Chewy, school-friendly snacks packed with vitamins, traceable to Cambodian farmers.</p>
+</div>
+<div class="bg-gray-50 p-6 rounded-2xl shadow card-hover">
+<h3 class="text-xl font-bold mb-2">Longan Herbal Tea</h3>
+<p class="text-gray-600">Blends with moringa, lemongrass, and vetiver — antioxidant-rich and rooted in tradition.</p>
+</div>
+</div>
+</section>
+
+ <!-- Scaling Strategy -->
+<section id="scaling" class="py-20 bg-white">
+  <div class="text-center mb-12">
+    <h2 class="text-3xl font-bold text-gradient mb-4">Scaling Strategy</h2>
+    <p class="text-lg text-gray-600">Step by step, PaiBloom is growing into Cambodia’s flagship regenerative food brand.</p>
+  </div>
+  <div class="max-w-7xl mx-auto px-6 lg:px-8 grid md:grid-cols-3 gap-8">
+    <div class="bg-gray-50 p-6 rounded-2xl shadow w-full md:w-2/3 text-center">
+      <h3 class="text-xl font-bold text-yellow-600 mb-2">Phase 1 (2025)</h3>
+      <p class="text-gray-600">Product prototyping, consumer testing in Cambodia & Netherlands, and brand building.</p>
     </div>
-  </section>
+    <div class="bg-gray-50 p-6 rounded-2xl shadow w-full md:w-2/3 text-center">
+      <h3 class="text-xl font-bold text-yellow-600 mb-2">Phase 2 (2026)</h3>
+      <p class="text-gray-600">Expansion to other Cambodian fruits (mango, tamarind, lychee) and scaling farmer hubs in Battambang & Pursat.</p>
+    </div>
+    <div class="bg-gray-50 p-6 rounded-2xl shadow w-full md:w-2/3 text-center">
+      <h3 class="text-xl font-bold text-yellow-600 mb-2">Phase 3 (2027+)</h3>
+      <p class="text-gray-600">Export-ready packaging for EU & Asia wellness markets, establishing PaiBloom as Cambodia’s flagship regenerative brand.</p>
+    </div>
+  </div>
+</section>
 
 
-  <!-- About Section -->
-  <section id="about" class="py-20 bg-gray-50">
+<!-- Impact -->
+<section id="impact" class="py-20 bg-gray-50">
+<div class="text-center mb-12">
+<h2 class="text-3xl font-bold text-gradient mb-4">Our Impact Pathways</h2>
+<p class="text-lg text-gray-600">Every bottle and bite supports farmers, communities, and the environment.</p>
+</div>
+<div class="max-w-6xl mx-auto px-6 lg:px-8 grid md:grid-cols-3 gap-8">
+<div class="bg-white p-6 rounded-2xl shadow">
+<h3 class="font-bold text-xl mb-2">Socio-economic</h3>
+<p class="text-gray-600">100+ farmers with incomes increased by 30–40%. <br> 60% of processing jobs for women and youth.</p>
+</div>
+<div class="bg-white p-6 rounded-2xl shadow">
+<h3 class="font-bold text-xl mb-2">Environmental</h3>
+<p class="text-gray-600">30% post-harvest waste reduction. <br> Soil carbon restored via <strong>regenerative agriculture</strong> and circularity.</p>
+</div>
+<div class="bg-white p-6 rounded-2xl shadow">
+<h3 class="font-bold text-xl mb-2">Nutrition</h3>
+<p class="text-gray-600">2,000+ consumers shifting from sodas to healthy, traceable <strong>longan drinks</strong>.</p>
+</div>
+</div>
+</section>
+
+  <!-- Team Section -->
+  <section id="team" class="py-20 bg-gray-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-16 fade-in-up">
-        <h2 class="text-4xl font-bold text-gradient mb-6">Our Story</h2>
-        <p class="text-xl text-gray-600 max-w-3xl mx-auto">Born from the legacy of SEASAW, SEAKERS is the natural evolution serving graduates, working professionals, and emerging cultural leaders across Europe.</p>
+      <div class="text-center mb-16">
+        <h2 class="text-4xl font-bold text-gradient mb-6">Our Team</h2>
+        <p class="text-xl text-gray-600">Meet the people behind the project</p>
       </div>
-      <div class="grid md:grid-cols-2 gap-12 items-center">
-        <div class="fade-in-up">
-          <h3 class="text-2xl font-bold text-gray-900 mb-6">The Challenge We Address</h3>
-          <p class="text-gray-600 mb-6">Southeast Asians make up a vibrant and growing population in Europe, yet many face a lack of representation, cross-cultural invisibility, and fragmented community support after university.</p>
-          <p class="text-gray-600">SEA professionals often feel torn between assimilation and invisibility. SEAKERS changes that by providing an intentional space centered on shared identity, cultural pride, and professional growth.</p>
-        </div>
-        <div class="fade-in-up">
-          <div class="bg-white p-8 rounded-2xl shadow-lg">
-            <h4 class="text-xl font-bold text-gray-900 mb-4">Our Vision</h4>
-            <p class="text-blue-600 font-semibold mb-4">To become Europe's leading Southeast Asian professional and cultural network, rooted in community, creativity, and care.</p>
-            <div class="space-y-3">
-              <div class="flex items-center"><div class="w-2 h-2 bg-blue-500 rounded-full mr-3"></div><span class="text-gray-600">Shared identity and heritage</span></div>
-              <div class="flex items-center"><div class="w-2 h-2 bg-blue-500 rounded-full mr-3"></div><span class="text-gray-600">Cultural pride and storytelling</span></div>
-              <div class="flex items-center"><div class="w-2 h-2 bg-blue-500 rounded-full mr-3"></div><span class="text-gray-600">Career development and collaboration</span></div>
-            </div>
+
+      <!-- Team Grid -->
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 justify-items-center">
+
+          <!-- Team Member 1 -->
+          <div>
+            <img src="img/jimmy.png" alt="Jimmy Tithphit" class="w-full max-w-[150px] rounded-lg ">
           </div>
+
+          <!-- Team Member 2 -->
+          <div>
+            <img src="img/alita.png" alt="Alita Tithphit" class="w-full max-w-[150px] rounded-lg ">
+          </div>
+
+          <!-- Team Member 3 -->
+          <div>
+            <img src="img/lohitha.png" alt="Sai Lohitha" class="w-full max-w-[150px] rounded-lg ">
+          </div>
+
+          <!-- Team Member 4 -->
+          <div>
+            <img src="img/mickey.png" alt="Mickey Tithphit" class="w-full max-w-[150px] rounded-lg ">
+          </div>
+
         </div>
       </div>
-    </div>
+
+
   </section>
 
-  <!-- Core Values -->
-    <section class="py-20 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16 fade-in-up">
-                <h2 class="text-4xl font-bold text-gradient mb-6">Our Core Values</h2>
-                <p class="text-xl text-gray-600">The principles that guide everything we do</p>
-            </div>
-            
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="bg-gradient-to-br from-blue-50 to-blue-100 p-8 rounded-2xl card-hover fade-in-up">
-                    <div class="w-12 h-12 bg-blue-500 rounded-xl mb-6 flex items-center justify-center">
-                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">Intimacy</h3>
-                    <p class="text-gray-600">Depth over scale; quality over quantity in all our connections</p>
-                </div>
-                
-                <div class="bg-gradient-to-br from-blue-50 to-blue-100 p-8 rounded-2xl card-hover fade-in-up">
-                    <div class="w-12 h-12 bg-blue-500 rounded-xl mb-6 flex items-center justify-center">
-                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">Empowerment</h3>
-                    <p class="text-gray-600">Nurturing SEA leadership across all sectors and industries</p>
-                </div>
-                
-                <div class="bg-gradient-to-br from-blue-50 to-blue-100 p-8 rounded-2xl card-hover fade-in-up">
-                    <div class="w-12 h-12 bg-blue-500 rounded-xl mb-6 flex items-center justify-center">
-                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">Cultural Pride</h3>
-                    <p class="text-gray-600">Celebrating SEA heritage with nuance, authenticity, and style</p>
-                </div>
-                
-                <div class="bg-gradient-to-br from-blue-50 to-blue-100 p-8 rounded-2xl card-hover fade-in-up">
-                    <div class="w-12 h-12 bg-blue-500 rounded-xl mb-6 flex items-center justify-center">
-                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">Soft Power</h3>
-                    <p class="text-gray-600">Elevating influence through creativity, emotion, and thoughtful design</p>
-                </div>
-                
-                <div class="bg-gradient-to-br from-blue-50 to-blue-100 p-8 rounded-2xl card-hover fade-in-up">
-                    <div class="w-12 h-12 bg-blue-500 rounded-xl mb-6 flex items-center justify-center">
-                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">Vulnerability</h3>
-                    <p class="text-gray-600">Holding space for honest, authentic lived experiences</p>
-                </div>
-            </div>
-        </div>
-    </section>
+ 
+  <!-- Register Section -->
+  <section id="team" class="py-20 bg-white-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="bg-gray-50 p-6 rounded-2xl card-hover fade-in-up">
+        <h2 class="text-4xl font-bold text-center text-gradient mb-6">Register For Early Access</h2>
 
-    <!-- Programs Section -->
-    <section id="programs" class="py-20 bg-gray-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16 fade-in-up">
-                <h2 class="text-4xl font-bold text-gradient mb-6">Our Programs</h2>
-                <p class="text-xl text-gray-600">Diverse experiences designed to connect, inspire, and empower</p>
-            </div>
-            
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="bg-white p-6 rounded-2xl shadow-lg card-hover fade-in-up">
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">SEA After Dark</h3>
-                    <p class="text-gray-600 mb-4">Quarterly flagship events bringing together the community for meaningful connections</p>
-                    <div class="text-blue-500 font-semibold">Flagship Events</div>
-                </div>
-                
-                <div class="bg-white p-6 rounded-2xl shadow-lg card-hover fade-in-up">
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">SEA x Soul Dinners</h3>
-                    <p class="text-gray-600 mb-4">Intimate gatherings centered around food, culture, and storytelling</p>
-                    <div class="text-blue-500 font-semibold">Cultural Connection</div>
-                </div>
-                
-                <div class="bg-white p-6 rounded-2xl shadow-lg card-hover fade-in-up">
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">Career Workshops</h3>
-                    <p class="text-gray-600 mb-4">CV clinics, entrepreneurship sessions, and professional development</p>
-                    <div class="text-blue-500 font-semibold">Professional Growth</div>
-                </div>
-                
-                <div class="bg-white p-6 rounded-2xl shadow-lg card-hover fade-in-up">
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">SEA Diaspora Map</h3>
-                    <p class="text-gray-600 mb-4">Visual network connecting members across Europe and beyond</p>
-                    <div class="text-blue-500 font-semibold">Community Building</div>
-                </div>
-                
-                <div class="bg-white p-6 rounded-2xl shadow-lg card-hover fade-in-up">
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">Digital Storytelling</h3>
-                    <p class="text-gray-600 mb-4">Zines, newsletters, and upcoming podcast "SEA Talks"</p>
-                    <div class="text-blue-500 font-semibold">Creative Expression</div>
-                </div>
-                
-                <div class="bg-white p-6 rounded-2xl shadow-lg card-hover fade-in-up">
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">Wellness Sessions</h3>
-                    <p class="text-gray-600 mb-4">Mini retreats, creative journaling, and guided reflection spaces</p>
-                    <div class="text-blue-500 font-semibold">Personal Growth</div>
-                </div>
-            </div>
-        </div>
-    </section>
+        <form action="https://formspree.io/f/mkgzbaap" method="POST" class="space-y-4">
 
-    <!-- Membership Section -->
-    <section id="membership" class="py-20 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16 fade-in-up">
-                <h2 class="text-4xl font-bold text-gradient mb-6">Join Our Community</h2>
-                <p class="text-xl text-gray-600">Choose the membership tier that fits your journey</p>
-            </div>
-            
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div class="bg-gray-50 p-6 rounded-2xl card-hover fade-in-up">
-                    <h3 class="text-xl font-bold text-gray-900 mb-2">Explorer</h3>
-                    <div class="text-3xl font-bold text-blue-500 mb-4">Free</div>
-                    <ul class="space-y-2 text-gray-600 mb-6">
-                        <li class="flex items-center"><span class="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>Newsletter</li>
-                        <li class="flex items-center"><span class="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>Community access</li>
-                        <li class="flex items-center"><span class="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>Event discounts</li>
-                        <li class="flex items-center"><span class="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>Networking</li>
-                    </ul>
-                    <button class="w-full bg-gray-200 text-gray-800 py-2 rounded-lg hover:bg-gray-300 transition-colors">
-                        Get Started
-                    </button>
-                </div>
-                
-                <div class="bg-blue-50 p-6 rounded-2xl border-2 border-blue-200 card-hover fade-in-up">
-                    <h3 class="text-xl font-bold text-gray-900 mb-2">Connector</h3>
-                    <div class="text-3xl font-bold text-blue-500 mb-4">€5/Month</div>
-                    <ul class="space-y-2 text-gray-600 mb-6">
-                        <li class="flex items-center"><span class="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>All Explorer perks</li>
-                        <li class="flex items-center"><span class="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>Member badge</li>
-                        <li class="flex items-center"><span class="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>Directory access</li>
-                        <li class="flex items-center"><span class="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>Free events</li>
-                    </ul>
-                    <button class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition-colors">
-                        Join Now
-                    </button>
-                </div>
-                
-                <div class="bg-gray-50 p-6 rounded-2xl card-hover fade-in-up">
-                    <h3 class="text-xl font-bold text-gray-900 mb-2">Catalyst</h3>
-                    <div class="text-3xl font-bold text-blue-500 mb-4">€100/Year</div>
-                    <ul class="space-y-2 text-gray-600 mb-6">
-                        <li class="flex items-center"><span class="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>All Connector perks</li>
-                        <li class="flex items-center"><span class="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>Guest passes</li>
-                        <li class="flex items-center"><span class="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>Early invites</li>
-                        <li class="flex items-center"><span class="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>Special merch</li>
-                    </ul>
-                    <button class="w-full bg-gray-200 text-gray-800 py-2 rounded-lg hover:bg-gray-300 transition-colors">
-                        Upgrade
-                    </button>
-                </div>
-                
-                <div class="bg-gradient-to-br from-blue-100 to-blue-200 p-6 rounded-2xl card-hover fade-in-up">
-                    <h3 class="text-xl font-bold text-gray-900 mb-2">Patron</h3>
-                    <div class="text-3xl font-bold text-blue-600 mb-4">€250/Year</div>
-                    <ul class="space-y-2 text-gray-700 mb-6">
-                        <li class="flex items-center"><span class="w-2 h-2 bg-blue-600 rounded-full mr-2"></span>All Catalyst perks</li>
-                        <li class="flex items-center"><span class="w-2 h-2 bg-blue-600 rounded-full mr-2"></span>Co-host recognition</li>
-                        <li class="flex items-center"><span class="w-2 h-2 bg-blue-600 rounded-full mr-2"></span>Supporter wall listing</li>
-                        <li class="flex items-center"><span class="w-2 h-2 bg-blue-600 rounded-full mr-2"></span>VIP access</li>
-                    </ul>
-                    <button class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors">
-                        Become a Patron
-                    </button>
-                </div>
-            </div>
-        </div>
-    </section>
- <!-- Register Section -->
-    <section id="programs" class="py-20 bg-white-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="bg-gray-50 p-6 rounded-2xl card-hover fade-in-up">
-      <h2 class="text-3xl font-bold mb-6 text-center text-blue-600">Register For Early Access</h2>
-
-      <form action="https://formspree.io/f/mkgzbaap" method="POST" class="space-y-4">
-
-        <div class="bg-blue-50 p-6 rounded-2xl card-hover fade-in-up">
-          <input type="text" name="name" placeholder="Your Name" required
-          class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" />
-        </div>
+          <div class="bg-blue-50 p-6 rounded-2xl card-hover fade-in-up">
+            <input type="text" name="name" placeholder="Your Name" required
+              class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" />
+          </div>
           <div class="bg-blue-50 p-6 rounded-2xl card-hover fade-in-up">
             <input type="email" name="email" placeholder="Your Email" required
-          class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" />
+              class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" />
           </div>
-           <div class="bg-blue-50 p-6 rounded-2xl card-hover fade-in-up">
+          <div class="bg-blue-50 p-6 rounded-2xl card-hover fade-in-up">
             <textarea name="message" rows="3" placeholder="Your Message" required
-          class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"></textarea>
-           </div>
-        
-        <button class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors">
-          Send Message
-        </button>
-      </form>
-        </div>
+              class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"></textarea>
+          </div>
+
+          <button class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors">
+            Send Message
+          </button>
+        </form>
+      </div>
     </div>
   </section>
 
-    <!-- Contact Section -->
-    <section id="contact" class="py-20 gradient-bg">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center fade-in-up">
-                <h2 class="text-4xl font-bold text-white mb-6">Let's Build Together</h2>
-                <p class="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
-                    Ready to join the movement? We welcome partnerships, collaborations, and new community members.
-                </p>
-                <div class="space-x-4">
-                    <button class="bg-white text-blue-600 px-8 py-3 rounded-full font-semibold hover:bg-blue-50 transition-all ripple">
-                        Get In Touch
-                    </button>
-                    <button class="border-2 border-white text-white px-8 py-3 rounded-full font-semibold hover:bg-white hover:text-blue-600 transition-all">
-                        Partnership Inquiries
-                    </button>
-                </div>
-            </div>
-        </div>
-    </section>
 
   <!-- Footer -->
-<footer class="bg-gray-900 text-white py-12">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <!-- 
+  <footer class="bg-gray-900 text-white py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- 
       - On mobile: single column, centered items, text centered  
       - On md+: three columns, left-aligned text  
     -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 justify-items-center md:justify-items-stretch text-center md:text-left">
-      <div>
-        <div class="text-2xl font-bold mb-4">SEAKERS</div>
-        <p class="text-gray-400">
-          Building belonging for Southeast Asian professionals in Europe through community, 
-          culture, and connection.
-        </p>
+      <div
+        class="grid grid-cols-1 md:grid-cols-3 gap-8 justify-items-center md:justify-items-stretch text-center md:text-left">
+        <div>
+          <div class="text-2xl font-bold mb-4">Paibloom</div>
+          <p class="text-gray-400">
+            Proudly Cambodian: Sweetness with Purpose.
+          </p>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Support</h3>
+          <ul class="space-y-2 text-gray-400">
+            <li>Wageningen University & Research</li>
+            <li> 2025 Food Systems Innovation Challenge</li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Connect</h3>
+          <ul class="space-y-2 text-gray-400">
+            <li>Email: info@paibloom.co</li>
+            <li>Webiste: paibloom.co</li>
+            <li>Socials: @paibloom</li>
+          </ul>
+        </div>
       </div>
-      <div>
-        <h3 class="text-lg font-semibold mb-4">Programs</h3>
-        <ul class="space-y-2 text-gray-400">
-          <li>SEA After Dark</li>
-          <li>Career Workshops</li>
-          <li>Digital Storytelling</li>
-          <li>Wellness Sessions</li>
-        </ul>
-      </div>
-      <div>
-        <h3 class="text-lg font-semibold mb-4">Connect</h3>
-        <ul class="space-y-2 text-gray-400">
-          <li>Email: hello@seakers.nl</li>
-          <li>Webiste: seakers.nl</li>
-          <li>Socials: @seakers.nl</li>
-        </ul>
-      </div>
-    </div>
 
-    <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-      <p>&copy; 2025 SEAKERS. WE THE BESH</p>
+      <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+        <p>&copy; 2025 PAIBLOOM. Proudly Cambodian Fruit Futures. </p>
+      </div>
     </div>
-  </div>
-</footer>
+  </footer>
 
 
 
@@ -410,7 +446,8 @@
       document.querySelectorAll('.fade-in-up').forEach(el => observer.observe(el));
     });
 
-  
+
   </script>
 </body>
+
 </html>
